@@ -25,7 +25,7 @@ namespace RePlays.Classes.Services.Hotkeys
 
         protected Hotkey(string name)
         {
-            _key = name;
+            key = name;
             SetKeybind();
             
         }
