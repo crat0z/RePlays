@@ -73,5 +73,12 @@ namespace obs_net {
 		[DllImport(importLibrary, CallingConvention = importCall, CharSet = importCharSet)]
 		public static extern obs_data_t obs_get_source_defaults(
 			[MarshalAs(UnmanagedType.CustomMarshaler, MarshalTypeRef = typeof(UTF8StringMarshaler))] string id);
-	}
+
+		[DllImport(importLibrary, CallingConvention = importCall)]
+		public static extern void obs_source_enable_push_to_talk(obs_source_t source, [MarshalAs(UnmanagedType.I1)]bool enabled);
+
+		[DllImport(importLibrary, CallingConvention = importCall)]
+		public static extern void obs_source_set_push_to_talk_delay(obs_source_t source, UIntPtr delay);
+
+    }
 }

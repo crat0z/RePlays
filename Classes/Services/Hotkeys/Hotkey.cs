@@ -15,21 +15,25 @@ namespace RePlays.Classes.Services.Hotkeys
     {
         protected Keys _keybind;
         public Keys Keybind => _keybind;
+        protected readonly string key;
 
         private static Dictionary<string, string[]> defaultKeybindings = new Dictionary<string, string[]>() {
             { "StartStopRecording", new string[] { "Control", "F9" } },
-            { "CreateBookmark", new string[] { "F8" } }
+            { "CreateBookmark", new string[] { "F8" } },
+            { "PushToTalk", new string[] { "Control" } },
         };
 
-        protected Hotkey()
+        protected Hotkey(string name)
         {
+            _key = name;
             SetKeybind();
+            
         }
 
         public static Keys ParseKeys(string keyReference, string[] keys)
         {
             Keys keybind = Keys.None;
-
+            
             if (keys == null) keys = AddMissingHotkey(keyReference);
             
 

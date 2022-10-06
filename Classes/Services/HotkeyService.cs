@@ -43,6 +43,7 @@ namespace RePlays.Services
             //Create hotkeys
             _hotkeys.Add(new BookmarkHotkey());
             _hotkeys.Add(new RecordingHotkey());
+            _hotkeys.Add(new ObsHotKey("PushToTalk"));
             //Create hook
             TheHookCB = KeybHookProc;
             HookID = SetWindowsHookEx(13, TheHookCB, 0, 0);

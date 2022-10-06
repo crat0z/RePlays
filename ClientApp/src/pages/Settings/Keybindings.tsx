@@ -20,6 +20,10 @@ export const Keybindings: React.FC<Props> = ({ settings, keybindings, updateSett
                 Bookmark Keybind
                 <HotkeySelector id="CreateBookmark" width="auto" keybind={keybindings?.CreateBookmark} />
             </div>
+            <div className="flex flex-col gap-1">
+                Push To Talk Keybind
+                <HotkeySelector id="PushToTalk" width="auto" keybind={keybindings?.PushToTalk} />
+            </div>
         </div>
     )
 }

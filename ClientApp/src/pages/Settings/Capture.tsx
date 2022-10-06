@@ -11,6 +11,7 @@ export const Capture: React.FC<Props> = ({settings, updateSettings}) => {
   const customVideoQuality = useRef<HTMLInputElement | null>(null);
   const [gameAudioVolume, setGameAudioVolume] = useState(settings!.gameAudioVolume);
   const [micAudioVolume, setMicAudioVolume] = useState(settings!.micAudioVolume);
+  const [pushToTalkDelay, setPushToTalkDelay] = useState(settings!.pushToTalkDelay);
   const [inputAudioDevices, setInputAudioDevices] = useState<any[]>();
   const [outputAudioDevices, setOutputAudioDevices] = useState<any[]>();
   const [availableEncoders, setAvailableEncoders] = useState<any[]>();
@@ -240,6 +241,20 @@ export const Capture: React.FC<Props> = ({settings, updateSettings}) => {
                   defaultChecked={settings === undefined ? false : settings.useDisplayCapture}
                   onChange={(e) => { settings!.useDisplayCapture = e.target.checked; updateSettings(); }} />
               <span className="ml-2 text-gray-700 dark:text-gray-400">Use Display Capture As Backup</span>
+          </label>
+          <label className="inline-flex items-center">
+              <input type="checkbox" className="form-checkbox h-4 w-4 text-gray-600"
+                  defaultChecked={settings === undefined ? false : settings.pushToTalk}
+                  onChange={(e) => { settings!.pushToTalk= e.target.checked; updateSettings(); }} />
+              <span className="ml-2 text-gray-700 dark:text-gray-400">Enable push-to-talk</span>
+          </label>
+          <label className="inline-flex items-center">
+              <div className="flex flex-col">Push to talk delay</div>
+              <div className="flex gap-2">
+                  <input className="w-72" type="range" min="0" max="1000" step="5" defaultValue={settings === undefined ? 0 : settings!.pushToTalkDelay}
+                  onChange={(e) => { let value = parseInt((e.target as HTMLInputElement).value); setPushToTalkDelay(value); settings!.pushToTalkDelay = value; updateSettings();}}/>
+                  {pushToTalkDelay + "ms"}
+              </div>
           </label>
       </div>
     </div>

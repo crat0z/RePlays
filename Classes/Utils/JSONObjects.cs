@@ -80,6 +80,11 @@ namespace RePlays.Utils {
     public class CaptureSettings {
         private string _recordingMode = "automatic";
         public string recordingMode { get { return _recordingMode; } set { _recordingMode = value; } }
+        private bool _pushToTalk = false;
+        public bool pushToTalk { get { return _pushToTalk; } set { _pushToTalk = value; } }
+        
+        private int _pushToTalkDelay = 0;
+        public int pushToTalkDelay { get { return _pushToTalkDelay; } set { _pushToTalkDelay = value; } }
         private bool _useDisplayCapture = true;
         public bool useDisplayCapture { get { return _useDisplayCapture; } set { _useDisplayCapture = value; } }
         private List<string> _encodersCache = new();

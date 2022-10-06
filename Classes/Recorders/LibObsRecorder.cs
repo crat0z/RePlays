@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using RePlays.Classes.Services;
 using System.Diagnostics;
+using System.Windows.Forms;
+using RePlays.Classes.Services.Hotkeys;
 
 namespace RePlays.Recorders {
     public class LibObsRecorder : BaseRecorder {
@@ -417,13 +419,47 @@ namespace RePlays.Recorders {
                 settings = obs_data_create();
                 obs_data_set_string(settings, "device_id", deviceId);
             }
-            IntPtr source = obs_source_create(id, name, settings, IntPtr.Zero);
+
+            IntPtr hotkey_data = IntPtr.Zero;
+
+            if (name == "microphone")
+            {
+                string[] key_combo = SettingsService.Settings.keybindings["PushToTalk"];
+                Keys key = Hotkey.ParseKeys(null, key_combo);
+
+                if (key.Equals(Keys.Control))
+                {
+                    key = Keys.ControlKey;
+                }
+
+                int vk = (int)key;
+                int obs_key = obs_key_from_virtual_key(vk);
+                string key_name = obs_key_to_name(obs_key);
+
+                // hotkey_data contains an array "libobs.push_to_talk" whos elements all contain "keys" with
+                // the appropriate key name strings
+                hotkey_data = obs_data_create();
+                IntPtr array = obs_data_array_create();
+                IntPtr key_data = obs_data_create();
+
+                obs_data_set_string(key_data, "key", key_name);
+                obs_data_array_push_back(array, key_data);
+                obs_data_set_array(hotkey_data, "libobs.push-to-talk", array);
+            }
+
+            IntPtr source = obs_source_create(id, name, settings, hotkey_data);
 
             // If this is a microphone device, automatically down mix to mono
             // TODO: make this a user configurable setting instead
             if(name == "microphone") {
                 uint flags = obs_source_get_flags(source) | (1 << 1);
                 obs_source_set_flags(source, flags);
+                if (SettingsService.Settings.captureSettings.pushToTalk)
+                {
+                    obs_source_enable_push_to_talk(source, true);
+                    obs_source_set_push_to_talk_delay(source, (UIntPtr)SettingsService.Settings.captureSettings.pushToTalkDelay);
+                }
+                obs_data_release(hotkey_data);
             }
             obs_data_release(settings);
             return source;

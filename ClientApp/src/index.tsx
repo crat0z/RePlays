@@ -98,6 +98,8 @@ declare global {
   interface CaptureSettings {
     recordingMode: string,
     useDisplayCapture: boolean,
+    pushToTalk: boolean,
+    pushToTalkDelay: number,
     resolution: number, frameRate: number, bitRate: number,
     encodersCache: string[]
     encoder: string,
@@ -144,5 +146,6 @@ declare global {
   interface Keybindings {
     StartStopRecording: string[],
     CreateBookmark: string[],
+    PushToTalk: string[],
   }
 }
